@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api';
 
-function FormularioVenta() {
+function FormularioVenta({ onNotify }) {
   const [formData, setFormData] = useState({
     estudiante_id: '',
     producto_id: '',
@@ -35,7 +35,7 @@ function FormularioVenta() {
 
     api.post('/ventas', formData)
       .then((res) => {
-        alert(res.data.message || 'Venta registrada');
+        onNotify?.(res.data.message || 'Venta registrada', 'success');
         setFormData({
           estudiante_id: '',
           producto_id: '',
@@ -45,7 +45,7 @@ function FormularioVenta() {
       })
       .catch((err) => {
         console.error('Error al registrar venta:', err);
-        alert('No se pudo registrar la venta');
+        onNotify?.('No se pudo registrar la venta', 'error');
       });
   };
 

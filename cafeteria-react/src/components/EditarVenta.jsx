@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api';
 
-function EditarVenta({ venta, onUpdate }) {
+function EditarVenta({ venta, onUpdate, onNotify }) {
   const [formData, setFormData] = useState({
     estudiante_id: '',
     producto_id: '',
@@ -45,12 +45,12 @@ function EditarVenta({ venta, onUpdate }) {
 
     api.put(`/ventas/${venta.id}`, formData)
       .then((res) => {
-        alert(res.data.message || 'Venta actualizada con éxito');
+        onNotify?.(res.data.message || 'Venta actualizada con éxito', 'success');
         onUpdate();
       })
       .catch((err) => {
         console.error('Error al actualizar venta:', err);
-        alert('No se pudo actualizar la venta');
+        onNotify?.('No se pudo actualizar la venta', 'error');
       });
   };
 

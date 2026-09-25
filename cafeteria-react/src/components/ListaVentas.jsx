@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { api } from '../api';
 import EditarVenta from './EditarVenta';
 
-function ListaVentas() {
+function ListaVentas({ onNotify }) {
   const [ventas, setVentas] = useState([]);
   const [ventaSeleccionada, setVentaSeleccionada] = useState(null);
 
@@ -27,11 +27,11 @@ function ListaVentas() {
 
     try {
       const res = await api.delete(`/ventas/${id}`);
-      alert(res.data.message || 'Venta eliminada');
+      onNotify?.(res.data.message || 'Venta eliminada', 'success');
       cargarVentas();
     } catch (err) {
       console.error('Error al eliminar venta:', err);
-      alert('No se pudo eliminar la venta');
+      onNotify?.('No se pudo eliminar la venta', 'error');
     }
   };
 
@@ -79,6 +79,7 @@ function ListaVentas() {
       {ventaSeleccionada && (
         <EditarVenta
           venta={ventaSeleccionada}
+          onNotify={onNotify}
           onUpdate={() => {
             setVentaSeleccionada(null);
             cargarVentas();
