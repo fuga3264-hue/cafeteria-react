@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { api } from '../api';
 
-function FormularioVenta() {
+function EditarVenta({ venta, onUpdate }) {
   const [formData, setFormData] = useState({
     estudiante_id: '',
     producto_id: '',
     cantidad: '',
     fecha: ''
   });
-
   const [estudiantes, setEstudiantes] = useState([]);
   const [productos, setProductos] = useState([]);
 
@@ -22,6 +21,17 @@ function FormularioVenta() {
       .catch((err) => console.error('Error al cargar productos:', err));
   }, []);
 
+  useEffect(() => {
+    if (!venta) return;
+
+    setFormData({
+      estudiante_id: venta.estudiante_id ?? venta.estudiante?.id ?? '',
+      producto_id: venta.producto_id ?? venta.producto?.id ?? '',
+      cantidad: venta.cantidad ?? '',
+      fecha: venta.fecha ? new Date(venta.fecha).toISOString().slice(0, 10) : ''
+    });
+  }, [venta]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((current) => ({
@@ -33,25 +43,20 @@ function FormularioVenta() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    api.post('/ventas', formData)
+    api.put(`/ventas/${venta.id}`, formData)
       .then((res) => {
-        alert(res.data.message || 'Venta registrada');
-        setFormData({
-          estudiante_id: '',
-          producto_id: '',
-          cantidad: '',
-          fecha: ''
-        });
+        alert(res.data.message || 'Venta actualizada con éxito');
+        onUpdate();
       })
       .catch((err) => {
-        console.error('Error al registrar venta:', err);
-        alert('No se pudo registrar la venta');
+        console.error('Error al actualizar venta:', err);
+        alert('No se pudo actualizar la venta');
       });
   };
 
   return (
     <div>
-      <h2>Registrar Nueva Venta</h2>
+      <h3>Editar Venta</h3>
       <form onSubmit={handleSubmit}>
         <select
           name="estudiante_id"
@@ -84,7 +89,6 @@ function FormularioVenta() {
         <input
           type="number"
           name="cantidad"
-          placeholder="Cantidad"
           value={formData.cantidad}
           onChange={handleChange}
           min="1"
@@ -99,10 +103,10 @@ function FormularioVenta() {
           required
         />
 
-        <button type="submit">Registrar Venta</button>
+        <button type="submit">Guardar cambios</button>
       </form>
     </div>
   );
 }
 
-export default FormularioVenta;
+export default EditarVenta;
