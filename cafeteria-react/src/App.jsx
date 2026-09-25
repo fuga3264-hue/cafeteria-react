@@ -1,13 +1,14 @@
 import React from 'react';
 import ListaVentas from './components/ListaVentas';
 import FormularioVenta from './components/FormularioVenta';
+import './App.css'; // <-- AGREGAR ESTA LÍNEA
 
 function App() {
   return (
-    <div>
-      <h1>Cafetería Escolar</h1>
+    <div className="container">
+      <h1 className="title">Cafetería Escolar</h1>
       <FormularioVenta />
-      <hr />
+      <hr className="divider" />
       <ListaVentas />
     </div>
   );
