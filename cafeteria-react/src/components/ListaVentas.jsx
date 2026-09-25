@@ -14,6 +14,7 @@ function ListaVentas() {
       console.error('Error al obtener ventas:', err);
     }
   };
+  
 
   useEffect(() => {
     cargarVentas();
