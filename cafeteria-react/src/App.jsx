@@ -20,7 +20,10 @@ function App() {
       <div className="notification-container">
         <div className={`notification notification-${toast.type} ${toast.visible ? 'show' : ''}`}>
           <span className="notification-icon">{toast.type === 'error' ? '⚠' : '✓'}</span>
-          <span>{toast.message}</span>
+          <div className="notification-content">
+            <span className="notification-label">{toast.type === 'error' ? 'Atención' : 'Actualización'}</span>
+            <span className="notification-message">{toast.message}</span>
+          </div>
         </div>
       </div>
 
