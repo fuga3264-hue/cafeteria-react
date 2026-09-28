@@ -260,3 +260,66 @@ tr:last-child td {
 tr:hover td {
   background-color: #fdfbf7;
 }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 22, 24, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-delete {
+  background: rgba(40, 31, 34, 0.9);
+  border-radius: 18px;
+  padding: 22px 28px 20px;
+  min-width: 360px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-delete h3 {
+  margin: 0 0 20px;
+  color: #f7f2f6;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  text-align: center;
+  font-weight: 600;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.modal-btn {
+  min-width: 110px;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid transparent;
+  box-shadow: none;
+}
+
+.modal-btn-primary {
+  background: #f1b0d0;
+  color: #2f1d24;
+}
+
+.modal-btn-primary:hover {
+  background: #e399c0;
+}
+
+.modal-btn-secondary {
+  background: transparent;
+  color: #f1b0d0;
+  border-color: #f1b0d0;
+}
+
+.modal-btn-secondary:hover {
+  background: rgba(241, 176, 208, 0.08);
+}

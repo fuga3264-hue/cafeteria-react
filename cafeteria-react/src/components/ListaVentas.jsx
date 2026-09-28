@@ -5,6 +5,7 @@ import EditarVenta from './EditarVenta';
 function ListaVentas({ onNotify }) {
   const [ventas, setVentas] = useState([]);
   const [ventaSeleccionada, setVentaSeleccionada] = useState(null);
+  const [ventaAEliminar, setVentaAEliminar] = useState(null);
 
   const cargarVentas = async () => {
     try {
@@ -20,14 +21,15 @@ function ListaVentas({ onNotify }) {
     cargarVentas();
   }, []);
 
-  const eliminarVenta = async (id) => {
-    if (!window.confirm('¿Seguro que deseas eliminar esta venta?')) {
+  const confirmarEliminacion = async () => {
+    if (!ventaAEliminar) {
       return;
     }
 
     try {
-      const res = await api.delete(`/ventas/${id}`);
+      const res = await api.delete(`/ventas/${ventaAEliminar}`);
       onNotify?.(res.data.message || 'Venta eliminada', 'success');
+      setVentaAEliminar(null);
       cargarVentas();
     } catch (err) {
       console.error('Error al eliminar venta:', err);
@@ -66,7 +68,7 @@ function ListaVentas({ onNotify }) {
                   <button type="button" onClick={() => setVentaSeleccionada(venta)}>
                     Editar
                   </button>
-                  <button type="button" onClick={() => eliminarVenta(venta.id)}>
+                  <button type="button" onClick={() => setVentaAEliminar(venta.id)}>
                     Eliminar
                   </button>
                 </td>
@@ -75,6 +77,22 @@ function ListaVentas({ onNotify }) {
           })}
         </tbody>
       </table>
+
+      {ventaAEliminar && (
+        <div className="modal-backdrop" onClick={() => setVentaAEliminar(null)}>
+          <div className="modal-delete" onClick={(event) => event.stopPropagation()}>
+            <h3>¿Seguro que deseas eliminar esta venta?</h3>
+            <div className="modal-actions">
+              <button type="button" className="modal-btn modal-btn-primary" onClick={confirmarEliminacion}>
+                OK
+              </button>
+              <button type="button" className="modal-btn modal-btn-secondary" onClick={() => setVentaAEliminar(null)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {ventaSeleccionada && (
         <EditarVenta
