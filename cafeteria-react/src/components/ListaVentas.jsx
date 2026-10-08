@@ -2,6 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { api } from '../api';
 import EditarVenta from './EditarVenta';
 
+const formatFecha = (fecha) => {
+  if (!fecha) return '';
+
+  const fechaObj = new Date(fecha);
+  if (Number.isNaN(fechaObj.getTime())) return fecha;
+
+  const dia = fechaObj.getUTCDate().toString().padStart(2, '0');
+  const mes = (fechaObj.getUTCMonth() + 1).toString().padStart(2, '0');
+  const horas = fechaObj.getUTCHours().toString().padStart(2, '0');
+  const minutos = fechaObj.getUTCMinutes().toString().padStart(2, '0');
+
+  return `${dia}/${mes} ${horas}:${minutos}`;
+};
+
 function ListaVentas({ onNotify }) {
   const [ventas, setVentas] = useState([]);
   const [ventaSeleccionada, setVentaSeleccionada] = useState(null);
@@ -63,7 +77,7 @@ function ListaVentas({ onNotify }) {
                 <td>{venta.cantidad}</td>
                 <td>${venta.precio}</td>
                 <td>${total}</td>
-                <td>{venta.fecha}</td>
+                <td>{formatFecha(venta.fecha)}</td>
                 <td>
                   <button type="button" onClick={() => setVentaSeleccionada(venta)}>
                     Editar
