@@ -8,12 +8,14 @@ const formatFecha = (fecha) => {
   const fechaObj = new Date(fecha);
   if (Number.isNaN(fechaObj.getTime())) return fecha;
 
-  const dia = fechaObj.getUTCDate().toString().padStart(2, '0');
-  const mes = (fechaObj.getUTCMonth() + 1).toString().padStart(2, '0');
-  const horas = fechaObj.getUTCHours().toString().padStart(2, '0');
-  const minutos = fechaObj.getUTCMinutes().toString().padStart(2, '0');
-
-  return `${dia}/${mes} ${horas}:${minutos}`;
+  return fechaObj.toLocaleString('es-MX', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).replace(',', '');
 };
 
 function ListaVentas({ onNotify }) {

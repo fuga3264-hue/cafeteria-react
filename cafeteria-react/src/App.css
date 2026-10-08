@@ -75,6 +75,16 @@ input, select {
   transition: all 0.2s ease-in-out;
 }
 
+input[type="date"] {
+  min-width: 170px;
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 1;
+}
+
 input:focus, select:focus {
   border-color: #8d6e63;
   box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.2);
