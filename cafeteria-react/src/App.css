@@ -78,11 +78,19 @@ input, select {
 input[type="date"] {
   min-width: 170px;
   cursor: pointer;
+  appearance: auto;
+  -webkit-appearance: auto;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   opacity: 1;
+  display: block;
+  filter: contrast(0.4) brightness(0.9);
+}
+
+input[type="date"]::-webkit-datetime-edit {
+  color: #4a3b32;
 }
 
 input:focus, select:focus {

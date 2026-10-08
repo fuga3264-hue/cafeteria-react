@@ -94,6 +94,7 @@ function FormularioVenta({ onNotify }) {
         <input
           type="date"
           name="fecha"
+          placeholder="dd/mm/aaaa"
           value={formData.fecha}
           onChange={handleChange}
           required
